@@ -1,4 +1,4 @@
-let a = 10
+let a = 10 // operadores aritmeticos
 let b = 3
 console.log(a+b); 
 console.log("Subtração")
