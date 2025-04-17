@@ -24,10 +24,11 @@ primeiroDescricao.style.color = "red";
 let ps = document.querySelectorAll("p");
 ps.forEach(p => p.style.fontSize = "18px");
 
-
-//4 adicionar classe
+// adicionar classe
 function adicionarClasse() {
     titulo.classList.add("descricao");
     let descricao = document.getElementsByClassName("descricao");
-    descricao.style.color = "red";
+    for (let i = 0; i < descricao.length; i++) {
+        descricao[i].style.color = "red";
+    }
 }
