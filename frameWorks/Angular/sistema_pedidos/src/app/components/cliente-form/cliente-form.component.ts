@@ -13,8 +13,14 @@ export class ClienteFormComponent {
   constructor(private dadosService: DadosService){}
 
   salvarCliente(){
-  const cliente = new Cliente(this.dadosService.getClientes.length+1, this.nome);
-  this.dadosService.adicionarCliente(cliente);
-  this.nome = "";
+    const cliente = new Cliente(this.dadosService.getClientes.length+1, this.nome)
+    this.dadosService.adicionarCliente(cliente).subscribe(
+      ()=>{
+        this.nome = "";
+      },
+      (err)=>{
+        console.error(err);
+      }
+    );
   }
 }
