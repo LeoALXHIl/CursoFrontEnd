@@ -12,7 +12,7 @@ constructor(
         
         ){}
 
-
+        //ToMap obj -> api
         toMap(): {[key:string]:any}{
           return{
             id: this.id,
@@ -22,7 +22,7 @@ constructor(
             salario: this.salario,
           }
         }
-
+        // FromMap API -> OBJ
         fromMap(map:any):vaga{
           return new vaga(
             map.id,
@@ -61,3 +61,5 @@ constructor(
  //   this.id = id
 //}
 }
+
+

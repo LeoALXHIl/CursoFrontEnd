@@ -13,7 +13,7 @@ export class VagasService {
 //metodos de conexão com a api
 
 // get - read
-getVagas(): Observable<vaga[]> { //responsavel por traduziar as informções da api pro model
+getVagas(): Observable<vaga[]> { //responsavel por traduzir as informções da api pro model
   return this.http.get<vaga[]>(this.apiurl); // responsavel por endereço da conexão e retorno da informção
 }
 
