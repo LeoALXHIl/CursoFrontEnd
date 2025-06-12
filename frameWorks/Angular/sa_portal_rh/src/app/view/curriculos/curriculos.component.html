@@ -1,22 +1,32 @@
 <!-- Lista de Currículos Cadastrados -->
 <h2>Currículos Cadastrados</h2>
-
-<button routerLink="/curriculos-listar" style="margin-bottom: 2rem;">
-  Ir para Cadastro/Edição de Currículos
+<button class="btn btn-primary" routerLink="/curriculos-cadastro" style="margin-bottom: 2rem;">
+  Ir para Cadastro De Currículos
 </button>
 
 <section class="lista-Curriculos">
-  <div *ngIf="curriculos.length === 0">
+  <div *ngIf="erroCarregamento">
+    <p style="color: red;">Erro ao carregar currículos. Verifique a conexão com o servidor.</p>
+  </div>
+  <div *ngIf="!erroCarregamento && curriculos.length === 0">
     <p>Nenhum currículo cadastrado.</p>
   </div>
   <div *ngFor="let curriculo of curriculos">
     <div class="card">
       <!-- Ajuste o caminho da imagem e os campos conforme o modelo de curriculo -->
-      <img src="assets\img\vagas\{{curriculo.foto}}" alt="...">
+      <img src="assets/img/vagas/{{curriculo.foto}}" alt="...">
       <div class="card-body">
-        <h5 class="card-title">Código do Currículo: {{curriculo.id}}</h5>
+        <h5 class="card-title">CPF do Currículo: {{curriculo.cpf}}</h5>
         <h5 class="card-title">Nome: {{curriculo.nome}}</h5>
         <p class="card-text">Email: {{curriculo.email}}</p>
-        
+        <button type="button" [routerLink]="['/curriculos-editar', curriculo.cpf]">
+          Mais Detalhes
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="rodape"></div>
+</section>
+
 
 

@@ -1,0 +1,46 @@
+<h2>Cadastro e Gerenciamento de Currículos</h2>
+<form #form="ngForm">
+  <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+    <div style="flex: 1 1 200px;">
+      <label>CPF</label>
+      <input type="text" name="cpf" [(ngModel)]="curriculo.cpf" required>
+    </div>
+    <div style="flex: 2 1 300px;">
+      <label>Nome</label>
+      <input type="text" name="nome" [(ngModel)]="curriculo.nome" required>
+    </div>
+    <div style="flex: 2 1 300px;">
+      <label>Email</label>
+      <input type="email" name="email" [(ngModel)]="curriculo.email" required>
+    </div>
+    <div style="flex: 2 1 300px;">
+      <label>Foto</label>
+      <select name="foto" [(ngModel)]="curriculo.foto" required>
+        <option value="" disabled>Selecione uma foto</option>
+        <option value="foto1.jpg">foto1.jpg</option>
+        <option value="foto2.jpg">foto2.jpg</option>
+        <option value="foto3.jpg">foto3.jpg</option>
+        <option value="foto4.jpg">foto4.jpg</option>
+        <option value="foto6.jpg">foto6.jpg</option>
+      </select>
+    </div>
+    <div style="flex: 2 1 300px;">
+      <label>Experiência</label>
+      <input type="text" name="experiencia" [(ngModel)]="curriculo.experiencia" required>
+    </div>
+    <div style="flex: 2 1 300px;">
+      <label>Função</label>
+      <input type="text" name="funcao" [(ngModel)]="curriculo.funcao" required>
+    </div>
+  </div>
+
+  <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+    <button type="button" (click)="cadastrar()">Cadastrar</button>
+    <button type="button" (click)="Atualizar(curriculo.cpf)">Salvar Alterações</button>
+    <button type="button" (click)="excluir(curriculo.cpf)">Excluir</button>
+    <button type="button" (click)="limparFormulario()">Limpar</button>
+  </div>
+</form>
+
+<hr style="margin: 2rem 0;">
+

@@ -9,8 +9,8 @@ import { curriculosService } from 'src/app/services/curriculos.service';
   styleUrls: ['./painel-curriculos.component.scss']
 })
 export class PainelCurriculosComponent implements OnInit {
-  public curriculo: curriculo = { id: 0, nome: '', email: '', foto: '' };
-  public curriculos: curriculo[] = [];
+  public curriculo: any = { cpf: '', nome: '', email: '', foto: '' };
+  public curriculos: any[] = [];
   public mostrarLista: boolean = false;
 
   private snackConfig: MatSnackBarConfig = {
@@ -36,12 +36,19 @@ export class PainelCurriculosComponent implements OnInit {
     );
   }
 
-  listarCurriculoUnico(curriculo: curriculo) {
+  listarCurriculoUnico(curriculo: any) {
+    // Preenche o formulário com o currículo selecionado
     this.curriculo = { ...curriculo };
   }
 
   camposInvalidos(): boolean {
-    if (!this.curriculo.id || this.curriculo.id === 0) return true;
+    if (
+      this.curriculo.cpf === undefined ||
+      this.curriculo.cpf === null ||
+      this.curriculo.cpf.trim().length === 0
+    ) {
+      return true;
+    }
     if (!this.curriculo.nome || this.curriculo.nome.trim().length < 3) return true;
     if (!this.curriculo.email || !this.validarEmail(this.curriculo.email)) return true;
     if (!this.curriculo.foto || this.curriculo.foto.trim().length < 1) return true;
@@ -52,20 +59,17 @@ export class PainelCurriculosComponent implements OnInit {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
-  showErrors(erros: string[]) {
-    if (erros.length > 0) {
-      this.snackBar.open(erros.join(' '), 'Fechar', this.snackConfig);
-    }
-  }
-
   cadastrar() {
     if (this.camposInvalidos()) {
       this.snackBar.open('Preencha o formulário corretamente', 'Fechar', this.snackConfig);
       return;
     }
-    this._curriculosService.cadastrarcurriculo(this.curriculo).subscribe(
+    // Não envie o campo id no cadastro
+    const { cpf, nome, email, foto } = this.curriculo;
+    const curriculoToSend = { cpf, nome, email, foto };
+    this._curriculosService.cadastrarcurriculo(curriculoToSend).subscribe(
       () => {
-        this.curriculo = { id: 0, nome: '', email: '', foto: '' };
+        this.curriculo = { cpf: '', nome: '', email: '', foto: '' };
         this.listarCurriculos();
         this.snackBar.open('Currículo cadastrado com sucesso!', 'Fechar', this.snackConfig);
       },
@@ -76,14 +80,16 @@ export class PainelCurriculosComponent implements OnInit {
     );
   }
 
-  Atualizar(id: any) {
+  Atualizar() {
     if (this.camposInvalidos()) {
       this.snackBar.open('Preencha o formulário corretamente', 'Fechar', this.snackConfig);
       return;
     }
-    this._curriculosService.atualizarcurriculo(id, this.curriculo).subscribe(
+    // Use o id do currículo selecionado se existir, senão use o cpf
+    const identificador = this.curriculo.id ? this.curriculo.id : this.curriculo.cpf;
+    this._curriculosService.atualizarcurriculo(identificador, this.curriculo).subscribe(
       () => {
-        this.curriculo = { id: 0, nome: '', email: '', foto: '' };
+        this.curriculo = { cpf: '', nome: '', email: '', foto: '' };
         this.listarCurriculos();
         this.snackBar.open('Currículo atualizado com sucesso!', 'Fechar', this.snackConfig);
       },
@@ -94,9 +100,12 @@ export class PainelCurriculosComponent implements OnInit {
     );
   }
 
-  excluir(id: any) {
-    this._curriculosService.removercurriculo(id).subscribe(
+  excluir() {
+    // Use o id do currículo selecionado se existir, senão use o cpf
+    const identificador = this.curriculo.id ? this.curriculo.id : this.curriculo.cpf;
+    this._curriculosService.removercurriculo(identificador).subscribe(
       () => {
+        this.curriculo = { cpf: '', nome: '', email: '', foto: '' };
         this.listarCurriculos();
         this.snackBar.open('Currículo deletado com sucesso!', 'Fechar', this.snackConfig);
       },

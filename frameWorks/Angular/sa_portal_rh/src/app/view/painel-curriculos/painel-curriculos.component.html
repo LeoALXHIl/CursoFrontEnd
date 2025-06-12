@@ -1,7 +1,7 @@
 <h2>Cadastrar Currículo</h2>
 <form>
-  <label>Id</label>
-  <input type="text" name="id" [(ngModel)]="curriculo.id" required> <br>
+  <label>CPF</label>
+  <input type="text" name="cpf" [(ngModel)]="curriculo.cpf" required> <br>
 
   <label>Nome</label>
   <input type="text" name="nome" [(ngModel)]="curriculo.nome" required> <br>
@@ -10,11 +10,18 @@
   <input type="text" name="email" [(ngModel)]="curriculo.email" required> <br>
 
   <label>Foto</label>
-  <input type="text" name="foto" [(ngModel)]="curriculo.foto" required> <br>
+  <select name="foto" [(ngModel)]="curriculo.foto" required>
+    <option value="" disabled>Selecione uma foto</option>
+    <option value="foto1.jpg">foto1.jpg</option>
+    <option value="foto2.jpg">foto2.jpg</option>
+    <option value="foto3.jpg">foto3.jpg</option>
+    <option value="foto4.jpg">foto4.jpg</option>
+    <option value="foto6.jpg">foto6.jpg</option>
+  </select> <br>
 
   <button type="button" (click)="cadastrar()">Cadastrar Currículo</button>
-  <button type="button" (click)="Atualizar(curriculo.id)">Atualizar Currículo</button>
-  <button type="button" (click)="excluir(curriculo.id)"> requiredExcluir Currículo</button>
+  <button type="button" (click)="Atualizar()">Atualizar Currículo</button>
+  <button type="button" (click)="excluir()">Excluir Currículo</button>
 </form>
 
 <!-- Botão para mostrar/ocultar a lista de currículos -->
@@ -29,7 +36,7 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Código do Currículo</th>
+        <th>CPF do Currículo</th>
         <th>Nome</th>
         <th>Email</th>
         <th>Foto</th>
@@ -38,12 +45,12 @@
     </thead>
     <tbody>
       <tr class="curriculo-row" *ngFor="let curriculo of curriculos">
-        <td>{{curriculo.id}}</td>
+        <td>{{curriculo.cpf}}</td>
         <td>{{curriculo.nome}}</td>
         <td>{{curriculo.email}}</td>
         <td>{{curriculo.foto}}</td>
         <td>
-          <button class="btn-listar" type="button" (click)="listarCurriculoUnico(curriculo)">Listar</button>
+          <button class="btn-listar" type="button" (click)="listarCurriculoUnico(curriculo)">Editar/Selecionar</button>
         </td>
       </tr>
     </tbody>

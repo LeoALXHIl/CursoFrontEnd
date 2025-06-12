@@ -14,6 +14,7 @@ import { curriculosComponent } from './view/curriculos/curriculos.component';
 import { PainelCurriculosComponent } from './view/painel-curriculos/painel-curriculos.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CurriculosCadastroComponent } from './view/curriculos-cadastro/curriculos-cadastro.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     PainelVagasComponent,
     curriculosComponent,
     PainelCurriculosComponent,
+    CurriculosCadastroComponent,
   ],
   imports: [
     BrowserModule,

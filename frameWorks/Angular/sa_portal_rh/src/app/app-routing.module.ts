@@ -5,6 +5,7 @@ import { VagasComponent } from './view/vagas/vagas.component';
 import { PainelVagasComponent } from './view/painel-vagas/painel-vagas.component';
 import { curriculosComponent } from './view/curriculos/curriculos.component';
 import { PainelCurriculosComponent } from './view/painel-curriculos/painel-curriculos.component';
+import { CurriculosCadastroComponent } from './view/curriculos-cadastro/curriculos-cadastro.component';
 
 const routes: Routes = [
   {path: "", component: InicioComponent},
@@ -12,6 +13,8 @@ const routes: Routes = [
   {path: "vaga-listar", component: PainelVagasComponent},
   {path: "curriculos", component: curriculosComponent},
   {path: "curriculos-listar", component: PainelCurriculosComponent},
+  {path: "curriculos-cadastro", component: CurriculosCadastroComponent},
+  {path: "curriculos-editar/:cpf", component: CurriculosCadastroComponent},
 ];
 
 @NgModule({

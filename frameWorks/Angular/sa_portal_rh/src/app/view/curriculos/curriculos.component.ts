@@ -9,6 +9,8 @@ import { curriculosService } from 'src/app/services/curriculos.service';
 })
 export class curriculosComponent implements OnInit{
   public curriculos: curriculo[] = [];
+  public curriculoSelecionado: curriculo | null = null;
+  public erroCarregamento: boolean = false; // novo
 
   constructor(private _curriculoservice: curriculosService) {}
 
@@ -19,10 +21,14 @@ export class curriculosComponent implements OnInit{
   listarcurriculos() {
     this._curriculoservice.getcurriculos().subscribe(
       (retornaCurriculo: curriculo[]) => {
+        console.log('Curriculos recebidos:', retornaCurriculo); // debug
         this.curriculos = retornaCurriculo;
+        this.erroCarregamento = false;
       },
       (err) => {
         console.error('Erro ao buscar curriculos:', err);
+        this.erroCarregamento = true;
+        this.curriculos = [];
       }
     );
   }

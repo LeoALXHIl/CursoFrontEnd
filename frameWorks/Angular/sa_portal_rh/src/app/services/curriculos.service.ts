@@ -10,29 +10,29 @@ export class curriculosService {
 
   constructor(private http: HttpClient) { }
 
-//metodos de conexão com a api
+  //metodos de conexão com a api
 
-// get - read
-getcurriculos(): Observable<curriculo[]> { //responsavel por traduzir as informções da api pro model
-  return this.http.get<curriculo[]>(this.apiurl); // responsavel por endereço da conexão e retorno da informção
-}
+  // get - read
+  getcurriculos(): Observable<curriculo[]> { //responsavel por traduzir as informções da api pro model
+    return this.http.get<curriculo[]>(this.apiurl); // responsavel por endereço da conexão e retorno da informção
+  }
 
-//post - create
-cadastrarcurriculo(curriculo: curriculo): Observable<curriculo[]>{
-  return this.http.post<curriculo[]>(this.apiurl, curriculo);
-}
+  //post - create
+  cadastrarcurriculo(curriculo: curriculo): Observable<curriculo>{
+    return this.http.post<curriculo>(this.apiurl, curriculo);
+  }
 
-//put - update
-atualizarcurriculo(id: any, curriculo: curriculo): Observable<curriculo[]>{
-  const urlAtualizado = `${this.apiurl}/${id}`;
-  return this.http.put<curriculo[]>(urlAtualizado, curriculo);
-}
+  //put - update
+  atualizarcurriculo(identificador: any, curriculo: curriculo): Observable<curriculo>{
+    const urlAtualizado = `${this.apiurl}/${identificador}`;
+    return this.http.put<curriculo>(urlAtualizado, curriculo);
+  }
 
-//delete - delete
-removercurriculo(id: any): Observable<curriculo[]>{
-  const urlDdeletar = `${this.apiurl}/${id}`;
-  return this.http.delete<curriculo[]>(urlDdeletar,);
-}
+  //delete - delete
+  removercurriculo(identificador: any): Observable<curriculo>{
+    const urlDdeletar = `${this.apiurl}/${identificador}`;
+    return this.http.delete<curriculo>(urlDdeletar,);
+  }
 
 
 }
