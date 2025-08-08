@@ -5,9 +5,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegistroComponent } from './pages/registro/registro.component';
 import { IternaComponent } from './pages/iterna/iterna.component';
 import { AuthGuard } from './guardas/auth.guard';
-const routes: Routes = [
 
-  
+const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'registro', component: RegistroComponent},

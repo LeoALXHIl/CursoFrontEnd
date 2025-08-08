@@ -5,15 +5,19 @@ import { Observable } from "rxjs";
 
 @Injectable({providedIn: 'root'})
 
+//midleware
+//implement (faz um contrato com uma interface)
 export class AuthGuard implements CanActivate {
 
   constructor(private authService: AuthService, private router: Router){}
 
-  canActivate(): boolean{
-    if(this.authService.estaAutennticado()){
+  canActivate() : boolean {
+    if(this.authService.estaAutenticado()){
       return true;
-    } else {
-      this.router.navigate(['/login']);
-      return false;  
-}}}
-    
+    }else{
+      this.router.navigate(['/login'])
+      return false;
+    }
+  }
+
+}
