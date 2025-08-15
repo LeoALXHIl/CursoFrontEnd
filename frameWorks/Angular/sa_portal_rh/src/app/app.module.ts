@@ -26,7 +26,7 @@ import { CurriculosCadastroComponent } from './view/curriculos-cadastro/curricul
     PainelVagasComponent,
     curriculosComponent,
     PainelCurriculosComponent,
-    CurriculosCadastroComponent,
+    CurriculosCadastroComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +35,7 @@ import { CurriculosCadastroComponent } from './view/curriculos-cadastro/curricul
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    MatSnackBarModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
