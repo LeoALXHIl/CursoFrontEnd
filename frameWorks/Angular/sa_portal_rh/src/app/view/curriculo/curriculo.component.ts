@@ -1,3 +1,4 @@
+// Página de envio de currículo para usuários comuns
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
@@ -10,6 +11,7 @@ import { curriculo } from '../../models/curriculo.model';
   styleUrls: ['./curriculo.component.scss']
 })
 export class CurriculoComponent {
+  // Campos do formulário
   cpf = '';
   nome = '';
   email = '';
@@ -19,12 +21,14 @@ export class CurriculoComponent {
   enviado = false;
   erro = '';
 
+  // Injeta serviços necessários
   constructor(
     private authService: AuthService,
     private router: Router,
     private curriculosService: curriculosService
   ) {}
 
+  // Envia currículo para o backend
   enviar() {
     const novoCurriculo: curriculo = {
       cpf: this.cpf,

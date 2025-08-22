@@ -17,6 +17,24 @@
       "foto": "foto1.jpg",
       "experiencia": "bater no rubinho",
       "funcao": "corre"
+    },
+    {
+      "id": "663f",
+      "cpf": "1234567890",
+      "nome": "Vitor Rossi Scholl ",
+      "email": "vitorrossi@gmail.com",
+      "experiencia": "estagiario",
+      "funcao": "ajudante",
+      "foto": "foto2.jpg"
+    },
+    {
+      "id": "2575",
+      "cpf": "leo",
+      "nome": "aleixo",
+      "email": "leoaleiohilario@gmail.com",
+      "foto": "foto1.jpg",
+      "experiencia": "trabalho",
+      "funcao": "ajudante"
     }
   ]
 }

@@ -1,3 +1,4 @@
+// Página de login de usuário
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -8,12 +9,15 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  // Campos do formulário
   email = '';
   senha = '';
   erro = '';
 
+  // Injeta AuthService e Router
   constructor(private authService: AuthService, private router: Router) {}
 
+  // Realiza login e redireciona conforme tipo de usuário
   login() {
     if (this.authService.login(this.email, this.senha)) {
       const user = this.authService.getUser();
