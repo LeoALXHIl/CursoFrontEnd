@@ -1,0 +1,14 @@
+<div class="curriculo-container">
+  <h2>Enviar Currículo</h2>
+  <form (ngSubmit)="enviar()" *ngIf="!enviado">
+    <input type="text" [(ngModel)]="cpf" name="cpf" placeholder="CPF" required>
+    <input type="text" [(ngModel)]="nome" name="nome" placeholder="Nome" required>
+    <input type="email" [(ngModel)]="email" name="email" placeholder="Email" required>
+    <input type="text" [(ngModel)]="experiencia" name="experiencia" placeholder="Experiência" required>
+    <input type="text" [(ngModel)]="funcao" name="funcao" placeholder="Função" required>
+    <input type="text" [(ngModel)]="foto" name="foto" placeholder="Foto" required>
+    <button type="submit">Enviar</button>
+    <div *ngIf="erro" class="erro">{{ erro }}</div>
+  </form>
+  <div *ngIf="enviado" class="sucesso">Currículo enviado com sucesso!</div>
+</div>

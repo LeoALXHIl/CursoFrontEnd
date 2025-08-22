@@ -1,0 +1,15 @@
+<div class="registro-container">
+  <h2>Registro</h2>
+  <form (ngSubmit)="registrar()">
+    <input type="text" [(ngModel)]="nome" name="nome" placeholder="Nome" required>
+    <input type="email" [(ngModel)]="email" name="email" placeholder="Email" required>
+    <input type="password" [(ngModel)]="senha" name="senha" placeholder="Senha" required>
+    <label>Tipo de usuário:</label>
+    <select [(ngModel)]="tipo" name="tipo">
+      <option value="comum">Comum</option>
+      <option value="admin">Admin</option>
+    </select>
+    <button type="submit">Registrar</button>
+    <div *ngIf="erro" class="erro">{{ erro }}</div>
+  </form>
+</div>

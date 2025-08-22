@@ -1,0 +1,9 @@
+<div class="login-container">
+  <h2>Login</h2>
+  <form (ngSubmit)="login()">
+    <input type="email" [(ngModel)]="email" name="email" placeholder="Email" required>
+    <input type="password" [(ngModel)]="senha" name="senha" placeholder="Senha" required>
+    <button type="submit">Entrar</button>
+    <div *ngIf="erro" class="erro">{{ erro }}</div>
+  </form>
+</div>
