@@ -7,7 +7,7 @@ import { curriculosService } from 'src/app/services/curriculos.service';
   templateUrl: './curriculos.component.html',
   styleUrls: ['./curriculos.component.scss']
 })
-export class curriculosComponent implements OnInit{
+export class CurriculosComponent implements OnInit{
   public curriculos: curriculo[] = [];
   public curriculoSelecionado: curriculo | null = null;
   public erroCarregamento: boolean = false; // novo

@@ -1,0 +1,16 @@
+<div class="login-container">
+  <h2>Login</h2>
+  <form (ngSubmit)="login()">
+    <div>
+      <label for="email">E-mail</label>
+      <input id="email" type="email" [(ngModel)]="email" name="email" required />
+    </div>
+    <div>
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" [(ngModel)]="senha" name="senha" required />
+    </div>
+    <button type="submit">Entrar</button>
+    <div *ngIf="mostrarErro" class="erro">E-mail ou senha inválidos.</div>
+  </form>
+  <a routerLink="/registro">Registrar-se</a>
+</div>

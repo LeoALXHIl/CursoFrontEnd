@@ -1,0 +1,28 @@
+<div class="registro-container">
+  <h2>Registro</h2>
+  <form (ngSubmit)="registrar()">
+    <div>
+      <label for="nome">Nome</label>
+      <input id="nome" type="text" [(ngModel)]="nome" name="nome" required />
+    </div>
+    <div>
+      <label for="email">E-mail</label>
+      <input id="email" type="email" [(ngModel)]="email" name="email" required />
+    </div>
+    <div>
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" [(ngModel)]="senha" name="senha" required />
+    </div>
+    <div>
+      <label for="tipo">Tipo de usuário</label>
+      <select id="tipo" [(ngModel)]="tipo" name="tipo">
+        <option value="admin">Administrador</option>
+        <option value="candidato">Candidato</option>
+      </select>
+    </div>
+    <button type="submit">Registrar</button>
+    <div *ngIf="sucesso" class="sucesso">Registro realizado com sucesso!</div>
+    <div *ngIf="erro" class="erro">Preencha todos os campos.</div>
+  </form>
+  <a routerLink="/login">Já tenho conta</a>
+</div>
