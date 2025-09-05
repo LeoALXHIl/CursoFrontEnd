@@ -1,70 +1,40 @@
 {
   "vagas": [
     {
-      "id": "2",
-      "nome": "Desenvolver BackEnd Pleno",
-      "foto": "foto2.jpg",
-      "descricao": "Trabalhar com Desenvolvimento Web",
-      "salario": 7000
-    },
-    {
       "id": "3",
       "nome": "Desenvolver Fullstack Senior",
       "foto": "foto3.jpg",
       "descricao": "Trabalhar com Desenvolvimento Web",
       "salario": 10000
-    },
-    {
-      "id": "4",
-      "nome": "Engenheiro de Nuvem",
-      "foto": "foto4.jpg",
-      "descricao": "Trabalhar com Nuvem AWS",
-      "salario": 8000
-    },
-    {
-      "id": "1",
-      "nome": "Desenvolver FrontEnd Jr",
-      "foto": "foto1.jpg",
-      "descricao": "Trabalhar com HTML, CSS e JS",
-      "salario": 4000
     }
   ],
   "curriculos": [
     {
-      "id": "2764",
-      "cpf": "53861445883",
-      "nome": "leonardo aleixo",
-      "email": "leoaleixo@gmail.com",
+      "id": "943f",
+      "cpf": "4156789076464",
+      "nome": "fernando alonso",
+      "email": "schumaker@gmail.com",
       "foto": "foto1.jpg",
-      "experiencia": "2 anos de senai",
-      "funcao": "Desenvolvedor"
+      "experiencia": "bater no rubinho",
+      "funcao": "corre"
     },
     {
-      "id": "9aa3",
-      "cpf": "53861445882",
-      "nome": "Vitor Rossi",
-      "email": "vitor@gmail.com",
-      "foto": "foto2.jpg",
-      "experiencia": "2 anos de senai",
-      "funcao": "Desenvolvedor"
+      "id": "663f",
+      "cpf": "1234567890",
+      "nome": "Vitor Rossi Scholl ",
+      "email": "vitorrossi@gmail.com",
+      "experiencia": "estagiario",
+      "funcao": "ajudante",
+      "foto": "foto2.jpg"
     },
     {
-      "id": "69c6",
-      "cpf": "5386144581",
-      "nome": "Kauã Santos",
-      "email": "Kauãsantos@gmail.com",
+      "id": "2575",
+      "cpf": "leo",
+      "nome": "aleixo",
+      "email": "leoaleiohilario@gmail.com",
       "foto": "foto1.jpg",
-      "experiencia": "2 anos de Senai",
-      "funcao": "Desenvolvedor"
-    },
-    {
-      "id": "2592",
-      "cpf": "53861445880",
-      "nome": "Pedro henrique",
-      "email": "pedro@gmail.com",
-      "foto": "foto1.jpg",
-      "experiencia": "2 anos de senai e competencia",
-      "funcao": "Desenvolvedor bom"
+      "experiencia": "trabalho",
+      "funcao": "ajudante"
     }
   ]
 }

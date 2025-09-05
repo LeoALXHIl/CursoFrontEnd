@@ -1,0 +1,35 @@
+<div class="admin-vagas-container">
+  <h2>Administração de Vagas</h2>
+  <form (ngSubmit)="salvarVaga()">
+    <input type="text" [(ngModel)]="novaVaga.nome" name="nome" placeholder="Nome da vaga" required>
+    <input type="text" [(ngModel)]="novaVaga.foto" name="foto" placeholder="Foto">
+    <input type="text" [(ngModel)]="novaVaga.descricao" name="descricao" placeholder="Descrição" required>
+    <input type="number" [(ngModel)]="novaVaga.salario" name="salario" placeholder="Salário" required>
+    <button type="submit">{{ novaVaga.id ? 'Atualizar' : 'Adicionar' }}</button>
+    <button type="button" (click)="novaVaga = { id: '', nome: '', foto: '', descricao: '', salario: 0 }" *ngIf="novaVaga.id">Cancelar</button>
+  </form>
+  <hr>
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Foto</th>
+        <th>Descrição</th>
+        <th>Salário</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let vaga of vagas">
+        <td>{{ vaga.nome }}</td>
+        <td>{{ vaga.foto }}</td>
+        <td>{{ vaga.descricao }}</td>
+        <td>{{ vaga.salario | currency:'BRL' }}</td>
+        <td>
+          <button (click)="editarVaga(vaga)">Editar</button>
+          <button (click)="excluirVaga(vaga.id)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

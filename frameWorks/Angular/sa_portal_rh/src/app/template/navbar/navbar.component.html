@@ -1,0 +1,19 @@
+<nav class="navbar">
+  <div class="logo">RH Connect</div>
+  <ul>
+    <ng-container *ngIf="!authService.getUser()">
+      <li><a routerLink="/login">Login</a></li>
+      <li><a routerLink="/registro">Registro</a></li>
+    </ng-container>
+    <ng-container *ngIf="authService.getUser()?.tipo === 'comum'">
+      <li><a routerLink="/vagas">Vagas</a></li>
+      <li><a routerLink="/curriculo">Enviar Currículo</a></li>
+      <li><a (click)="logout()">Sair</a></li>
+    </ng-container>
+    <ng-container *ngIf="authService.getUser()?.tipo === 'admin'">
+      <li><a routerLink="/admin-vagas">Admin Vagas</a></li>
+      <li><a routerLink="/curriculos">Currículos Recebidos</a></li>
+      <li><a (click)="logout()">Sair</a></li>
+    </ng-container>
+  </ul>
+</nav>
