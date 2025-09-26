@@ -1,37 +1,31 @@
-//rotas que não precisam especificar o id
+//rotas que não precisam especificar o ID (GET/POST)
 
-import { createTarefa, getAllTarefas } from "@/controllers/tarefa_controller";
+import { createTarefa, getAllTarefas } from "@/controllers/tarefaController";
 import { NextRequest, NextResponse } from "next/server";
 
-// get 
+//GET
 export async function GET(){
     try {
         const tarefas = await getAllTarefas();
-        return NextResponse.json({sucess:true, data:tarefas},{status:200});
+        return NextResponse.json({success:true, data:tarefas}, {status: 200});
     } catch (error) {
-   return NextResponse.json({sucess:false,
-     error:` Erro ao buscar tarefas: ${error}`
-    },{status:500});
-   
-   
+        return NextResponse.json({
+            success: false,
+            error: `Falha ao Buscar As Tarefas: ${error}`
+        }, {status:500});
     }
-
 }
 
-//post
-export async function POST(req: NextRequest){
+//POST
+export async function POST(req:NextRequest) {
     try {
-        const data = await req.json(); //verifico se esta escrito no formato o json
+        const data = await req.json(); //verifico se esta escrito no formato json
         const newTarefa = await createTarefa(data);
         return NextResponse.json({success:true, data:newTarefa}, {status: 201});
     } catch (error) {
         return NextResponse.json({
             success: false,
-            error: `Falha ao Inserir Tarefas: ${error}`
+            error: `Falha ao Inserir Tarefa: ${error}`
         }, {status:500});
     }
 }
-    
-
-
-

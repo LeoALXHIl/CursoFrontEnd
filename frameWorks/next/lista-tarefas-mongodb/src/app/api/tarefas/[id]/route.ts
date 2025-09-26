@@ -1,22 +1,20 @@
-//patch e delete que usam o idpara requisitar http
+//PATCH e DELETE que usam ID para fazer as Requisições Http 
 
+import { deleteTarefa, updateTArefa } from "@/controllers/tarefaController";
+import { error } from "console";
 import { NextRequest, NextResponse } from "next/server";
-import { deleteTarefa, updateTarefa } from "@/controllers/tarefa_controller";
 
 
-
-//Params -> next precisa dos params para dar acesso ao seguimento da url
-//quando eu passo o params.id eu to passando um endereço ( "/ api/tarefas/123" => transforma os params em um endereco url )
-
-interface Parametros {
-    id: string;
+interface Parametros{
+    id:string
 }
-
+//params -> Next precisa dos Params para dar acesso ao segmento da URL
+//params.id => "/api/tarefas/123" => transforma os params em endereço URL
 export async function PATCH(req: NextRequest, {params}:{params:Parametros}) {
     try {
         const {id} = params;
         const data = await req.json();
-        const tarefaAtualizada = await updateTarefa(id,data);
+        const tarefaAtualizada = await updateTArefa(id,data);
         //vou ter 2 resposta
         if(!tarefaAtualizada) {
             return NextResponse.json({success:false, error: "Not Found"},{status:404});
@@ -30,23 +28,19 @@ export async function PATCH(req: NextRequest, {params}:{params:Parametros}) {
     }
 }
 
-// delete
-export async function DELETE(request: NextRequest, context: { params: Parametros }) {
+//DELETE
+export async function DELETE({params}:{params:Parametros}){
     try {
-        const { id } = context.params;
-        console.log('DELETE request received for id:', id);
+        const {id} = params;
         const resultado = await deleteTarefa(id);
-        console.log('Delete result:', resultado);
-        if (resultado) {
-            return NextResponse.json({ success: true }, { status: 200 });
-        } else {
-            return NextResponse.json({ success: false, error: "Not found" }, { status: 404 });
+        //2 possiblidades
+        if(!resultado){
+            return NextResponse.json({success:false, error:"Not found"},{status:404})
         }
     } catch (error) {
         return NextResponse.json({
             success: false,
-            error: `Falha ao Deletar As Tarefas: ${error}`
-        }, { status: 500 });
+            error: `Falha ao Deletar A Tarefa: ${error}`
+        }, {status:500});
     }
 }
-        

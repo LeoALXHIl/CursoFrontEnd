@@ -1,9 +1,10 @@
-//INDICA que a tela é usada pelo cliente-side
+
+//índica que é a tela usada pelo cliente-side
 "use client";
 
-import { Itarefa } from "@/models/tarefa";
+import { Itarefa } from "@/models/Tarefa";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-
+import { PATCH } from "./api/tarefas/[id]/route";
 
 export default function Home(){
   //useState => Armazenamento no localStorage
@@ -36,7 +37,7 @@ export default function Home(){
     try {
       const resultado = await fetch("/api/tarefas",{
         method: "POST",
-        headers: {"Content-type":"applicatin/json"},
+        headers: {"Content-type":"application/json"},
         body: JSON.stringify({titulo:newTarefa})
       });
       const data = await resultado.json();
@@ -50,6 +51,7 @@ export default function Home(){
     }
   }
 
+  //updateTarefa
   const updateTarefa = async(id: string, statusTarefa: boolean) =>{
     try {
       const resposta = await fetch(`/api/tarefas/${id}`,
@@ -76,14 +78,15 @@ export default function Home(){
         method: "DELETE",
       });
       if(resultado){
-        //fetch de tarefas //serverside
-        setTarefas(tarefas.filter((tarefa)=> tarefa._id !==id))//remove a tarefa
+        fetchTarefas(); //server-side
+        //setTarefas(tarefas.filter((tarefa)=> tarefa._id !==id));//remove a tarefa do vetor
       }
     } catch (error) {
       console.error(error);
-      
     }
   }
+
+
   //html => ReactDOM
   return(
     <div>
@@ -102,7 +105,8 @@ export default function Home(){
             {tarefa.titulo}
             <input type="checkbox"
             checked={tarefa.concluida}
-            onChange={()=> updateTarefa(tarefa.id.toString())} />
+            onChange={()=> updateTarefa(tarefa._id.toString(), tarefa.concluida)} />
+            <button onClick={()=> deleteTarefa(tarefa._id.toString())}>Excluir</button>
           </li>
         ))}
       </ul>

@@ -1,36 +1,37 @@
-import { Document, Model, Schema } from "mongoose";
-import mongoose from "mongoose";
 
-// definir primeiro a infraestrutura do objeto tarefa
-export interface Itarefa extends Document {
-    // herdamos a base document do moongose 
-    // e vamos criar os atribuytos do obj
-    _id: string;
-    titulo: string;
-    concluida: boolean;
-    criadoEm: Date;
+//definir primeiro a infraestrutura do obj
+
+import mongoose, { Document, Model, Schema } from "mongoose";
+
+export interface Itarefa extends Document{
+    //herdamos a base Document do Mongoose
+    //Vamos criar os atributos do OBJ
+    titulo:string;
+    concluida:boolean;
+    criadaEm:Date;
 }
 
-// vamos criar as regras do schema do mongoose ( forma de abreviar o modelo ) ( converso de elementos)
+//vamos criar a Regra do Schema
 
 const TarefaSchema: Schema<Itarefa> = new mongoose.Schema({
-    titulo: {
-        type: String,
-        required: [true,"O titulo é obrigatorio"],
+    titulo:{
+        type:String,
+        required:[true, "O Título é Obrigatorio"],
         trim: true,
-        maxLength: [50,"Maximo de 50 caracteres"]
-
+        maxlength: [50, "máximo de 50 char"]
     },
-    concluida: {
+    concluida:{
         type: Boolean,
-        default: false,
+        default: false
     },
-    criadoEm: {
+    criadaEm: {
         type: Date,
-        default: Date.now,// Pega o carimbo de data atual
+        default: Date.now //pega o carimbo de data e hora
     }
-});
-// criar o modelo ( coleção ) do mongoose
-const Tarefa: Model<Itarefa> = mongoose.models.tarefa || mongoose.model<Itarefa>("tarefa", TarefaSchema);
 
-export default Tarefa;// componente reutilizavel
+});
+
+const Tarefa: Model<Itarefa> = mongoose.models.Tarefa || mongoose.model<Itarefa>("Tarefa",TarefaSchema);
+
+//componente reutilizavel
+export default Tarefa;
