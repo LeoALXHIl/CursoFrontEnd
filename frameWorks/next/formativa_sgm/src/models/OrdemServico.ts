@@ -1,26 +1,35 @@
+//classe para equipamentos
+
 import mongoose, { Document, Model, Schema } from "mongoose";
 
-export interface IOrdemServico extends Document {
+// atributos da classe
+export interface IOrdemServico extends Document{
     _id: string;
+    titulo: string;
     descricao: string;
+    tipoManutencao: string;
     status: string;
-    equipamento: mongoose.Types.ObjectId; // Reference to Equipamento
-    atribuidoPara?: mongoose.Types.ObjectId; // Reference to Usuario
-    dataCriacao: Date;
-    createdAt: Date;
-    updatedAt: Date;
+    dataSolictada: Date;
+    dataFinalizacao: Date;
+    tecnicoId: string;
+    EquipamentoId: string;
 }
 
-const OrdemServicoSchema: Schema<IOrdemServico> = new Schema({
-    descricao: { type: String, required: true },
-    status: { type: String, enum: ["pendente", "em_andamento", "concluida"], required: true, default: "pendente" },
-    equipamento: { type: Schema.Types.ObjectId, ref: "Equipamento", required: true },
-    atribuidoPara: { type: Schema.Types.ObjectId, ref: "Usuario" },
-    dataCriacao: { type: Date, default: Date.now }
-}, {
-    timestamps: true
+//Schema da Classe ( Construtor)
+const OrdemServicoSchema:Schema<IOrdemServico> = new Schema({
+    titulo:{type:String, required:true},
+    descricao:{type:String, required:true},
+    tipoManutencao:{type:String, required:true},
+    status:{type: String, enum: ["aberta","fechada"], default: "ativo"},
+    dataSolictada:{type: Date, default: Date.now},
+    dataFinalizacao:{type: Date},
+    tecnicoId: {type: String, required: true},
+    EquipamentoId: {type: String, required: true},
 });
 
-const OrdemServico: Model<IOrdemServico> = mongoose.models.OrdemServico || mongoose.model<IOrdemServico>("OrdemServico", OrdemServicoSchema);
+// fromMap toMap
+
+const OrdemServico: Model<IOrdemServico> = mongoose.models.OrdemServico
+|| mongoose.model<IOrdemServico>("OrdemServico",OrdemServicoSchema);
 
 export default OrdemServico;

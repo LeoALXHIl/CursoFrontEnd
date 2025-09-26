@@ -1,26 +1,34 @@
-import { NextRequest, NextResponse } from "next/server";
-import connectMongo from "@/services/mongodb";
-import Usuario from "@/models/Usuario";
+import { autenticaUsuario } from "@/app/controllers/UsuarioController";
+import { NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
 
-export async function GET() {
-    try {
-        await connectMongo();
-        const usuarios = await Usuario.find().select("-password");
-        return NextResponse.json(usuarios);
-    } catch (error) {
-        return NextResponse.json({ error: "Erro ao buscar usuários" }, { status: 500 });
-    }
+// ROTA DE API  EEEEE CHEGOU A HORAAA
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if(!JWT_SECRET){
+    throw new Error("JWT_SECRETE não está definida nas variáveis locais");
 }
-
-export async function POST(request: NextRequest) {
+export async function POST(req: Request){
     try {
-        await connectMongo();
-        const body = await request.json();
-        const usuario = new Usuario(body);
-        await usuario.save();
-        const { password, ...userWithoutPassword } = usuario.toObject();
-        return NextResponse.json(userWithoutPassword, { status: 201 });
+        const{username, password} = await req.json();
+        // validar os dados
+        if(!username || !password){
+            return NextResponse.json({success:false, error: "Usuário e Senha são Obrigatórios"});
+        }
+        // autenticar o usuário
+        const usuario = await autenticaUsuario(username, password);
+        if(!usuario){
+            return NextResponse.json({success:false, error: "Usuário ou Senha inválidos"});
+        }
+        // gerar o token JWT
+        const token = jwt.sign(
+            {id: usuario._id, username: usuario.username, tipo: usuario.tipo},
+            JWT_SECRET as string,
+            { expiresIn: "8h"}
+        );
+        //retornar o token
+        return NextResponse.json({success: true, token});
     } catch (error) {
-        return NextResponse.json({ error: "Erro ao criar usuário" }, { status: 500 });
+        return NextResponse.json({success:false, error: error}); 
     }
 }
