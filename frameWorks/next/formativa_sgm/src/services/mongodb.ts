@@ -14,15 +14,17 @@ if(!MONGO_URI){
 
 
 
+
 //2º Passo criar um arquivo Cached, para armazenar as conexões ao longo do projeto
 let cached = (global as any).mongoose;
 
-//se cached não existir (primeira vez que for fazer acesso ao mongo)
+//se cached não existir primeira vez que for fazer acesso ao mongo
 if(!cached) {
     cached = (global as any).mongoose = {conn: null, promise: null}
 }
 
-//3º passo criar a função de conexão com o DB
+//3º passo criar a função de conexao com o DB
+
 
 async function connectMongo(){
     //verificar se já existe uma conexão
@@ -50,4 +52,5 @@ async function connectMongo(){
 }
 
 //trasnformar em componente reutilizável
+
 export default connectMongo;

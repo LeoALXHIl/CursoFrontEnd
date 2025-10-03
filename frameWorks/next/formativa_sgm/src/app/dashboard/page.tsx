@@ -1,10 +1,11 @@
 "use client";
 
-import DashboardTecnico from "./componentes/dashboardTecnico";
-import DashboardAdmin from "./componentes/dashboardAdmin";
-import DashboardGerente from "./componentes/dashboardGerente";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import styles from "./page.module.css";
+import DashboardAdmin from "../componentes/dashboardAdmin";
+import DashboardGerente from "../componentes/dashboardGerente";
+import DashboardTecnico from "../componentes/dashboardTecnico";
 
 export default function DashboardPage(){
     const router = useRouter();
@@ -31,17 +32,17 @@ export default function DashboardPage(){
         } else if (userRole === "gerente"){
             return <DashboardGerente />;
         } else if (userRole === "tecnico"){
-            return <DashboardTecnico/>;
+            return <DashboardTecnico />;
         }
     };
 
     return (
-        <div>
-            <header>
-                <h1>Bem-Vindo</h1>
-                <button onClick={handleLogout}>Logout</button>
+        <div className={styles.container}>
+            <header className={styles.header}>
+                <h1 className={styles.title}>Bem-Vindo</h1>
+                <button className={styles.button} onClick={handleLogout}>Logout</button>
             </header>
-            <main>
+            <main className={styles.main}>
                 {renderDashboard()}
             </main>
         </div>
