@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface MenuItem {
-  id: string;
+  _id: string;
   name: string;
   category: string;
   price: number;
@@ -43,7 +43,7 @@ export default function CreateOrder() {
         setMenuItems(data);
       }
     } catch (err) {
-      console.error('Error fetching menu:', err);
+      console.error('Erro ao buscar menu:', err);
     } finally {
       setLoading(false);
     }
@@ -51,7 +51,14 @@ export default function CreateOrder() {
 
   const addItem = (menuItemId: string, quantity: number) => {
     if (quantity <= 0) return;
-    setSelectedItems(prev => [...prev, { menuItemId, quantity }]);
+    const existingIndex = selectedItems.findIndex(item => item.menuItemId === menuItemId);
+    if (existingIndex >= 0) {
+      setSelectedItems(prev => prev.map((item, index) =>
+        index === existingIndex ? { ...item, quantity: item.quantity + quantity } : item
+      ));
+    } else {
+      setSelectedItems(prev => [...prev, { menuItemId, quantity }]);
+    }
   };
 
   const removeItem = (index: number) => {
@@ -60,7 +67,7 @@ export default function CreateOrder() {
 
   const calculateTotal = () => {
     return selectedItems.reduce((total, item) => {
-      const menuItem = menuItems.find(mi => mi.id === item.menuItemId);
+      const menuItem = menuItems.find(mi => mi._id === item.menuItemId);
       return total + (menuItem ? menuItem.price * item.quantity : 0);
     }, 0);
   };
@@ -71,7 +78,7 @@ export default function CreateOrder() {
     setSuccess('');
 
     if (!tableNumber || selectedItems.length === 0) {
-      setError('Table number and at least one item are required.');
+      setError('Número da mesa e pelo menos um item são obrigatórios.');
       return;
     }
 
@@ -87,18 +94,18 @@ export default function CreateOrder() {
       });
 
       if (res.ok) {
-        setSuccess('Order created successfully!');
+        setSuccess('Pedido criado com sucesso!');
         setTimeout(() => router.push('/orders'), 2000);
       } else {
         const data = await res.json();
-        setError(data.message || 'Failed to create order.');
+        setError(data.message || 'Falha ao criar pedido.');
       }
     } catch (err) {
-      setError('Error creating order.');
+      setError('Erro ao criar pedido.');
     }
   };
 
-  if (loading) return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>Loading...</div>;
+  if (loading) return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>Carregando...</div>;
 
   return (
     <div className="main-content">
@@ -112,20 +119,24 @@ export default function CreateOrder() {
           required
           min="1"
         />
-        <h3>Itens</h3>
+        <h3>Itens do Menu</h3>
         <div className="menu-list">
           {menuItems.map((item) => (
-            <div key={item.id} className="menu-item">
+            <div key={item._id} className="menu-item">
               <div className="item-name">{item.name} - R$ {item.price.toFixed(2)}</div>
-              <input
-                type="number"
-                placeholder="Quantidade"
-                min="1"
-                onChange={(e) => {
-                  const qty = parseInt(e.target.value);
-                  if (qty > 0) addItem(item.id, qty);
-                }}
-              />
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                <input
+                  type="number"
+                  placeholder="Qtd"
+                  min="1"
+                  style={{ width: '60px' }}
+                  onChange={(e) => {
+                    const qty = parseInt(e.target.value);
+                    if (qty > 0) addItem(item._id, qty);
+                  }}
+                />
+                <button type="button" onClick={() => addItem(item._id, 1)} className="btn secondary" style={{ padding: '5px 10px' }}>Adicionar</button>
+              </div>
             </div>
           ))}
         </div>
@@ -134,7 +145,7 @@ export default function CreateOrder() {
             <h3>Itens Selecionados</h3>
             <ul>
               {selectedItems.map((selItem, index) => {
-                const menuItem = menuItems.find(mi => mi.id === selItem.menuItemId);
+                const menuItem = menuItems.find(mi => mi._id === selItem.menuItemId);
                 return (
                   <li key={index}>
                     {menuItem?.name} x {selItem.quantity} - R$ {(menuItem ? menuItem.price * selItem.quantity : 0).toFixed(2)}
@@ -143,7 +154,7 @@ export default function CreateOrder() {
                 );
               })}
             </ul>
-            <p>Total: R$ {calculateTotal().toFixed(2)}</p>
+            <p><strong>Total: R$ {calculateTotal().toFixed(2)}</strong></p>
           </div>
         )}
         <button type="submit" className="btn primary">Criar Pedido</button>

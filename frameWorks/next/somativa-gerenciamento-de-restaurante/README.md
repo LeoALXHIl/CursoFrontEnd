@@ -22,13 +22,13 @@ O projeto consiste no desenvolvimento de um Sistema de Gestão de Manutenção (
 
 - ### Recursos Tecnológicos:
 
-# Sistema de Gestão de Pedidos - Pequeno Bistrô Sabor Local
+# Sistema de Gestão de Pedidos - Bistrô Sabor Local
 
 Este repositório contém uma aplicação Full-Stack (Next.js + MongoDB) com foco em um Sistema de Gestão de Pedidos para restaurante, desenvolvido como exercício formativo/avaliação.
 
 Cliente Fictício
 -----------------
-Pequeno Bistrô Sabor Local
+Bistrô Sabor Local
 
 Visão Geral / O Problema
 ------------------------
@@ -171,19 +171,19 @@ Melhorias futuras
 ------------------
 - Paginação e filtros para listagem de pedidos.
 - Notificações em tempo real (WebSockets / SSE) para a cozinha quando um novo pedido chegar.
-- Painel de relatórios: faturamento por dia, item mais vendido, tempo médio de preparo.
+
 
 Mapeamento dos requisitos (coverage)
 -----------------------------------
-- CRUD Itens do Cardápio: Done (especificado)
-- Criar Pedidos com número de mesa e itens: Done
-- Status do pedido: Done (Recebido, Em Preparo, Entregue)
-- Tela Cozinha ordenada por chegada: Done (endpoint sugerido)
-- Bônus (Total e Fechar conta): Sugerido e documentado
+- CRUD Itens do Cardápio: Done (especificado) (feito)
+- Criar Pedidos com número de mesa e itens: Done (feito)
+- Status do pedido: Done (Recebido, Em Preparo, Entregue) (feito)
+- Tela Cozinha ordenada por chegada: Done (endpoint sugerido) (feito)
+- Bônus (Total e Fechar conta): Sugerido e documentado (feito)
 
 Contato / Apresentação
 ----------------------
-Este README foi adaptado ao briefing do Pequeno Bistrô Sabor Local. Se quiser, eu também posso:
+Este README foi adaptado ao briefing do Bistrô Sabor Local. Se quiser, eu também posso:
 
 - Gerar esquemas Mongoose completos (`models/MenuItem.js`, `models/Order.js`, `models/User.js`).
 - Implementar os endpoints REST básicos com validação e testes.

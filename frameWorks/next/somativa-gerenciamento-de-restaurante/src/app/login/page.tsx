@@ -33,7 +33,7 @@ export default function Login() {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', background: 'var(--background)' }}>
       <div className="form">
-        <h1 style={{ textAlign: 'center', color: 'var(--text-dark)', marginBottom: '20px' }}>Login</h1>
+        <h1 style={{ textAlign: 'center', color: 'var(--text-dark)', marginBottom: '20px' }}>Entrar</h1>
         <form onSubmit={handleSubmit}>
           <input
             type="email"
@@ -44,16 +44,16 @@ export default function Login() {
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Senha"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button type="submit" className="btn primary">Login</button>
+          <button type="submit" className="btn primary">Entrar</button>
         </form>
         {error && <p style={{ color: 'var(--danger-red)', textAlign: 'center' }}>{error}</p>}
         <p style={{ textAlign: 'center', marginTop: '15px', color: 'var(--text-light)' }}>
-          Don't have an account? <a href="/register" style={{ color: 'var(--primary-orange)' }}>Register here</a>
+          Não tem conta? <a href="/register" style={{ color: 'var(--primary-orange)' }}>Registrar aqui</a>
         </p>
       </div>
     </div>

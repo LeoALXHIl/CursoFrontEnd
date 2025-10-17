@@ -3,10 +3,10 @@ import connectToDatabase from '../../../../lib/mongodb';
 import MenuItem from '../../../../models/MenuItem';
 import { withRole } from '../../../../lib/middleware';
 
-export const GET = async (req: NextRequest, { params }: { params: { id: string } }) => {
+export const GET = async (req: NextRequest, context: { params: Promise<Record<string, string | string[]>> }) => {
   try {
     await connectToDatabase();
-    const { id } = params;
+    const { id } = await context.params;
     const menuItem = await MenuItem.findById(id);
     if (!menuItem) {
       return NextResponse.json({ message: 'Menu item not found' }, { status: 404 });
@@ -19,10 +19,11 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
 };
 
 export const PUT = withRole(['manager'])(
-  async (req: NextRequest, context: { params?: Record<string, string | string[]> }) => {
+  async (req: NextRequest, context: { params: Promise<Record<string, string | string[]>> }) => {
     try {
       await connectToDatabase();
-      const id = typeof context.params?.id === 'string' ? context.params.id : Array.isArray(context.params?.id) ? context.params.id[0] : undefined;
+      const params = await context.params;
+      const id = typeof params.id === 'string' ? params.id : Array.isArray(params.id) ? params.id[0] : undefined;
       const { name, price, category } = await req.json();
 
       if (!id) {

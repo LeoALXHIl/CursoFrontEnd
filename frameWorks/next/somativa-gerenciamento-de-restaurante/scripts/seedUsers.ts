@@ -17,8 +17,13 @@ async function seedUser() {
     const user = new User({ name, email, password: hashedPassword, role: 'manager' });
     await user.save();
     console.log('Default user created: Leonardo (manager) with email leonardo@example.com and password 123456');
+    if (typeof (await import('mongoose')).default.disconnect === 'function') {
+      await (await import('mongoose')).default.disconnect();
+    }
+    process.exit(0);
   } catch (error) {
     console.error('Error seeding user:', error);
+    process.exit(1);
   }
 }
 

@@ -5,8 +5,8 @@ export interface AuthenticatedRequest extends NextRequest {
   user?: JWTPayload;
 }
 
-export function withAuth(handler: (req: AuthenticatedRequest, context: { params?: Record<string, string | string[]> }) => Promise<NextResponse>) {
-  return async (req: NextRequest, context: { params?: Record<string, string | string[]> }) => {
+export function withAuth(handler: (req: AuthenticatedRequest, context: { params: Promise<Record<string, string | string[]>> }) => Promise<NextResponse>) {
+  return async (req: NextRequest, context: { params: Promise<Record<string, string | string[]>> }) => {
     const authHeader = req.headers.get('authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
@@ -24,8 +24,8 @@ export function withAuth(handler: (req: AuthenticatedRequest, context: { params?
 }
 
 export function withRole(roles: string[]) {
-  return (handler: (req: AuthenticatedRequest, context: { params?: Record<string, string | string[]> }) => Promise<NextResponse>) => {
-    return withAuth(async (req: AuthenticatedRequest, context: { params?: Record<string, string | string[]> }) => {
+  return (handler: (req: AuthenticatedRequest, context: { params: Promise<Record<string, string | string[]>> }) => Promise<NextResponse>) => {
+    return withAuth(async (req: AuthenticatedRequest, context: { params: Promise<Record<string, string | string[]>> }) => {
       if (!req.user || !roles.includes(req.user.role)) {
         return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
       }

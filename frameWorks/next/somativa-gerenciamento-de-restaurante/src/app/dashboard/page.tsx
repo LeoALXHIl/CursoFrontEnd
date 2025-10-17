@@ -11,16 +11,16 @@ interface User {
 }
 
 interface MenuItem {
-  id: string;
+  _id: string;
   name: string;
   category: string;
   price: number;
 }
 
 interface Order {
-  id: string;
-  table: string;
-  items: string[];
+  _id: string;
+  tableNumber: number;
+  items: Array<{ menuItemId: { name: string; price: number }; quantity: number }>;
   total: number;
   status: 'recebido' | 'em-preparo' | 'entregue';
   createdAt: string;
@@ -47,9 +47,6 @@ export default function Dashboard() {
     // Fetch menu and orders
     fetchMenu();
     fetchOrders();
-    calculateStats();
-
-    setLoading(false);
   }, [router]);
 
   const fetchMenu = async () => {
@@ -65,7 +62,7 @@ export default function Dashboard() {
         setMenuItems(data);
       }
     } catch (error) {
-      console.error('Error fetching menu:', error);
+      console.error('Erro ao buscar menu:', error);
     }
   };
 
@@ -80,15 +77,19 @@ export default function Dashboard() {
       if (res.ok) {
         const data = await res.json();
         setOrders(data);
+        calculateStats(data);
       }
     } catch (error) {
-      console.error('Error fetching orders:', error);
+      console.error('Erro ao buscar pedidos:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const calculateStats = () => {
-    // Mock stats; in real, calculate from orders
-    setStats({ totalOrders: orders.length || 5, revenue: 1180.50 });
+  const calculateStats = (ordersData: Order[]) => {
+    const totalOrders = ordersData.length;
+    const revenue = ordersData.reduce((sum, order) => sum + order.total, 0);
+    setStats({ totalOrders, revenue });
   };
 
   const handleLogout = () => {
@@ -97,7 +98,7 @@ export default function Dashboard() {
     router.push('/login');
   };
 
-  if (loading || !user) return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>Loading...</div>;
+  if (loading || !user) return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>Carregando...</div>;
 
   const isManager = user.role === 'manager';
 
@@ -123,12 +124,17 @@ export default function Dashboard() {
                 <li>
                   <a href="/users">Usuários</a>
                 </li>
+                <li>
+                  <a href="/reports">Relatórios</a>
+                </li>
+                <li>
+                  <a href="/settings">Configurações</a>
+                </li>
               </>
             )}
             <li>
               <a href="/orders">Pedidos</a>
             </li>
-            {isManager && <li><a href="/reports">Relatórios</a></li>}
             {!isManager && <li><a href="/kitchen">Cozinha</a></li>}
           </ul>
         </div>
@@ -139,25 +145,25 @@ export default function Dashboard() {
         <div></div> {/* Spacer for sidebar */}
         <div className="user-info">
           <span className="user-name">{user.name}</span>
-          <span className="role">({user.role})</span>
-          <button onClick={handleLogout} className="btn danger">Logout</button>
+          <span className="role">({user.role === 'manager' ? 'Gerente' : 'Garçom'})</span>
+          <button onClick={handleLogout} className="btn danger">Sair</button>
         </div>
       </header>
 
       {/* Main Content */}
       <main className="main-content">
         <h1>Dashboard</h1>
-        <p>Welcome, {user.name} ({user.role})</p>
+        <p>Bem-vindo, {user.name} ({user.role === 'manager' ? 'Gerente' : 'Garçom'})</p>
 
         {/* Stats Cards */}
         <div className="dashboard-cards">
           <div className="card">
             <div className="card-value">{stats.totalOrders}</div>
-            <div className="card-label">Total Pedidos</div>
+            <div className="card-label">Total de Pedidos</div>
           </div>
           <div className="card">
             <div className="card-value">R$ {stats.revenue.toFixed(2)}</div>
-            <div className="card-label">Receita Hoje</div>
+            <div className="card-label">Receita Total</div>
           </div>
           {isManager && (
             <div className="card">
@@ -173,7 +179,7 @@ export default function Dashboard() {
             <h2>Menu</h2>
             <div className="menu-list">
               {menuItems.map((item) => (
-                <div key={item.id} className="menu-item">
+                <div key={item._id} className="menu-item">
                   <div className="item-name">{item.name}</div>
                   <div className="item-category">{item.category}</div>
                   <div className="item-price">R$ {item.price.toFixed(2)}</div>
@@ -185,7 +191,7 @@ export default function Dashboard() {
 
         {/* Orders Table */}
         <section>
-          <h2>Pedidos</h2>
+          <h2>Pedidos Recentes</h2>
           <div className="orders-table">
             <div className="table-header">
               <span>Mesa</span>
@@ -194,12 +200,12 @@ export default function Dashboard() {
               <span>Status</span>
               <span>Data</span>
             </div>
-            {orders.map((order) => (
-              <div key={order.id} className="table-row">
-                <span>{order.table}</span>
-                <span>{order.items.join(', ')}</span>
+            {orders.slice(0, 5).map((order) => (
+              <div key={order._id} className="table-row">
+                <span>{order.tableNumber}</span>
+                <span>{order.items.map(item => `${item.menuItemId.name} x ${item.quantity}`).join(', ')}</span>
                 <span>R$ {order.total.toFixed(2)}</span>
-                <span className={`status ${order.status}`}>{order.status}</span>
+                <span className={`status ${order.status}`}>{order.status === 'recebido' ? 'Recebido' : order.status === 'em-preparo' ? 'Em Preparo' : 'Entregue'}</span>
                 <span>{new Date(order.createdAt).toLocaleDateString()}</span>
               </div>
             ))}
@@ -211,7 +217,8 @@ export default function Dashboard() {
           {isManager && (
             <>
               <button className="btn primary" onClick={() => router.push('/menu')}>Gerenciar Menu</button>
-              <button className="btn secondary" onClick={() => router.push('/orders')}>Ver Pedidos</button>
+              <button className="btn secondary" onClick={() => router.push('/orders')}>Ver Todos os Pedidos</button>
+              <button className="btn secondary" onClick={() => router.push('/reports')}>Ver Relatórios</button>
             </>
           )}
           {!isManager && (

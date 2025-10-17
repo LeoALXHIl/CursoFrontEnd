@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed:menu": "ts-node scripts/seedMenu.ts",
+    "seed:users": "ts-node scripts/seedUsers.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

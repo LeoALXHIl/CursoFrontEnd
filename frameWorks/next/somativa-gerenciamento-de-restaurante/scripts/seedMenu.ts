@@ -1,6 +1,5 @@
-import connectToDatabase from '../lib/mongodb';
-import MenuItem from '../models/MenuItem';
-
+import connectToDatabase from '../src/lib/mongodb';
+import MenuItem from '../src/models/MenuItem';
 async function seedMenu() {
   try {
     await connectToDatabase();
@@ -24,8 +23,14 @@ async function seedMenu() {
       }
     }
     console.log('Menu seeding completed.');
+    // Close mongoose connection if available
+    if (typeof (await import('mongoose')).default.disconnect === 'function') {
+      await (await import('mongoose')).default.disconnect();
+    }
+    process.exit(0);
   } catch (error) {
     console.error('Error seeding menu:', error);
+    process.exit(1);
   }
 }
 

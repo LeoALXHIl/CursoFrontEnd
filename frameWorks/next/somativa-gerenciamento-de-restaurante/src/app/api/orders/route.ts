@@ -5,7 +5,7 @@ import MenuItem from '../../../models/MenuItem';
 import { withRole, withAuth } from '../../../lib/middleware';
 
 export const GET = withAuth(
-  async (req: NextRequest) => {
+  async (req: NextRequest, context: { params: Promise<Record<string, string | string[]>> }) => {
     try {
       await connectToDatabase();
       const orders = await Order.find({}).populate('items.menuItemId');
@@ -18,7 +18,7 @@ export const GET = withAuth(
 );
 
 export const POST = withRole(['waiter'])(
-  async (req: NextRequest) => {
+  async (req: NextRequest, context: { params: Promise<Record<string, string | string[]>> }) => {
     try {
       await connectToDatabase();
       const { tableNumber, items } = await req.json();

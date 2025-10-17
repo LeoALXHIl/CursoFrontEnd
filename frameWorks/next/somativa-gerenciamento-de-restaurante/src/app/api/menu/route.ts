@@ -15,7 +15,7 @@ export const GET = async (req: NextRequest) => {
 };
 
 export const POST = withRole(['manager'])(
-  async (req: NextRequest) => {
+  async (req: NextRequest, context: { params: Promise<Record<string, string | string[]>> }) => {
     try {
       await connectToDatabase();
       const { name, price, category } = await req.json();

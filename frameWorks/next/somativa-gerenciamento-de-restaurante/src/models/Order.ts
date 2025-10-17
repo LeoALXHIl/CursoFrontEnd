@@ -11,6 +11,9 @@ export interface IOrder extends Document {
   status: 'recebido' | 'em-preparo' | 'entregue';
   total: number;
   createdAt: Date;
+  paid?: boolean;
+  paidAt?: Date;
+  paymentMethod?: string;
 }
 
 const OrderItemSchema: Schema = new Schema({
@@ -23,6 +26,9 @@ const OrderSchema: Schema = new Schema({
   items: [OrderItemSchema],
   status: { type: String, enum: ['recebido', 'em-preparo', 'entregue'], default: 'recebido' },
   total: { type: Number, required: true },
+  paid: { type: Boolean, default: false },
+  paidAt: { type: Date },
+  paymentMethod: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
 

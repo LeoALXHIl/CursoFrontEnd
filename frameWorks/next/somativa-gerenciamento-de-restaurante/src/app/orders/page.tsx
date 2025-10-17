@@ -10,6 +10,9 @@ interface Order {
   total: number;
   status: 'recebido' | 'em-preparo' | 'entregue';
   createdAt: string;
+  paid?: boolean;
+  paidAt?: string;
+  paymentMethod?: string;
 }
 
 interface User {
@@ -44,10 +47,11 @@ export default function Orders() {
         const data = await res.json();
         setOrders(data);
       } else {
-        setError('Failed to fetch orders.');
+        setError('Erro ao buscar pedidos.');
       }
-    } catch (err) {
-      setError('Error fetching orders.');
+    } catch (error) {
+      console.error(error);
+      setError('Erro ao buscar pedidos.');
     } finally {
       setLoading(false);
     }
@@ -68,18 +72,57 @@ export default function Orders() {
         const updatedOrder = await res.json();
         setOrders(prev => prev.map(order => order._id === orderId ? updatedOrder : order));
       } else {
-        setError('Failed to update status.');
+        let msg = 'Erro ao atualizar status.';
+        try {
+          const body = await res.json();
+          if (body?.message) msg = body.message;
+        } catch (error) {
+          console.error(error);
+        }
+        setError(msg);
       }
-    } catch (err) {
-      setError('Error updating status.');
+    } catch (error) {
+      console.error(error);
+      setError('Erro ao atualizar status.');
     }
   };
 
-  const canUpdateToPreparing = (status: string) => status === 'recebido';
+  const closeOrder = async (orderId: string) => {
+    const token = localStorage.getItem('token');
+    try {
+      const res = await fetch(`/api/orders/${orderId}/close`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ paymentMethod: 'dinheiro' }),
+      });
+      if (res.ok) {
+        const updatedOrder = await res.json();
+        setOrders(prev => prev.map(order => order._id === orderId ? updatedOrder : order));
+      } else {
+        let msg = 'Erro ao fechar conta.';
+        try {
+          const body = await res.json();
+          if (body?.message) msg = body.message;
+        } catch (error) {
+          console.error(error);
+        }
+        setError(msg);
+      }
+    } catch (error) {
+      console.error(error);
+      setError('Erro ao fechar conta.');
+    }
+  };
+
+  const canUpdateToPreparing = (status: string) => status === 'recebido' && user?.role === 'manager';
   const canUpdateToDelivered = (status: string) => status === 'em-preparo';
   const isManager = user?.role === 'manager';
+  const isWaiter = user?.role === 'waiter';
 
-  if (loading) return <div className="main-content">Loading...</div>;
+  if (loading) return <div className="main-content">Carregando...</div>;
 
   return (
     <div className="main-content">
@@ -98,14 +141,14 @@ export default function Orders() {
           <div key={order._id} className="table-row">
             <span>{order.tableNumber}</span>
             <span>
-              {order.items.map(item => (
-                <div key={item.menuItemId._id}>
+              {order.items.map((item, index) => (
+                <div key={index}>
                   {item.menuItemId.name} x {item.quantity}
                 </div>
               ))}
             </span>
             <span>R$ {order.total.toFixed(2)}</span>
-            <span className={`status ${order.status}`}>{order.status}</span>
+            <span className={`status ${order.status}`}>{order.status === 'recebido' ? 'Recebido' : order.status === 'em-preparo' ? 'Em Preparo' : 'Entregue'}</span>
             <span>{new Date(order.createdAt).toLocaleDateString()}</span>
             <span>
               {canUpdateToPreparing(order.status) && (
@@ -130,6 +173,14 @@ export default function Orders() {
                   onClick={() => updateStatus(order._id, 'entregue')}
                 >
                   Concluir
+                </button>
+              )}
+              {(isManager || isWaiter) && order.paid !== true && (
+                <button
+                  className="btn success"
+                  onClick={() => closeOrder(order._id)}
+                >
+                  Fechar conta
                 </button>
               )}
             </span>
